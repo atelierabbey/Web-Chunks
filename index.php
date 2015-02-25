@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('ABSPATH') or die("Ya, took a wrong turn at Albuquerque, mac!"); // Don't worry about this portion, it's for security folks.
 
 /*
@@ -8,17 +8,18 @@ defined('ABSPATH') or die("Ya, took a wrong turn at Albuquerque, mac!"); // Don'
 	Version: 24Feb15
 	Author: Grayson A.C. Laramore
 	License: GPL2
+*/
 
+if ( ! class_exists( 'skivdiv_chunks' ) ) :
 
-if ( ! class_exists( 'skivdiv-chunks' ) ) : class skivdiv-chunks {
-  
 	// Include function module
-		include('inc/lib/skivvy_shortcodes.php');
+		include 'inc/lib/skivvy_shortcodes.php';
+
 
 	// Enqueue styles
 		function skivdiv_enqueuer() {
 			wp_enqueue_style( 'skivdiv', plugins_url('css/skivdiv.css', __FILE__), false, '24Feb15', 'all' );
 		} add_action( 'wp_enqueue_scripts', 'skivdiv_enqueuer');
 
-} new skivdiv-chunks;
+endif;
 ?>

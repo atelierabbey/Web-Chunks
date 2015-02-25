@@ -34,11 +34,15 @@ Division name. Accepted values:
 - param - Comma seperated string in order of parameters. CANNOT PASS AN ARRAY!
 - echoes - If the function echoes content, $echoes should equal '1', else default = '0'. Shortcodes must return a value.
 
+-----
+
 ##### Lorem ipsum - in inc/lib/skivvy_toolbox.php
 ````
 [lorem words="75"]
 ````
 
+
+----
 ##### Bloginfo - equivalent to the bloginfo function of WordPress - in inc/lib/skivvy_toolbox.php
 ````
 [bloginfo key="name"]

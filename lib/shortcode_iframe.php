@@ -1,6 +1,5 @@
 <?php #11Nov15
 
- 
 function shortcode_iframe ( $atts ) {
 	$attr = shortcode_atts( array(
 				'src' => '',

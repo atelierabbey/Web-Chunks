@@ -1,6 +1,13 @@
 <?php # 10Nov15
 
 // Use: [bucket title="" img="" linkto="" linktext="" class="" id="" style=""][/bucket]
+
+/* Add below to functions.php or other plugin
+// Bucket Icon locations
+$icon_registers = array(
+	'imgslug' => get_stylesheet_directory_uri(). '/img/imagename.jpg',
+);
+*/
 function shortcode_bucket( $atts, $content = null, $tag ) {
 	$attr = shortcode_atts( array(
 		'url'=>'#',
@@ -46,22 +53,27 @@ function shortcode_bucket( $atts, $content = null, $tag ) {
 		}
 	// icon
 		if ( $attr['icon'] != '' ) {
-			global $icon_locations;
-			foreach ($icon_locations as $key => $value) {
-					if ( $attr['icon'] == $key ) {
-						$fileLocation = get_stylesheet_directory_uri(). '/img/'. $value;
-						$fileInfo = pathinfo($fileLocation);
-						$outIcon = '<a class="bucket-icon"' . $linkGuts . '>';
-							if ( $fileInfo['extension'] == 'svg' ) {
-								$outIcon .= file_get_contents( $fileLocation );
-							} elseif ( $fileInfo['extension'] == 'png' || $fileInfo['extension'] == 'jpg' || $fileInfo['extension'] == 'gif' ) {
-								$outIcon .= '<img src="'. $fileLocation . '" alt="icon-'. $key . '" >';
-							} else {
-								$outIcon .= $key;
-							}
-						
-						$outIcon .= '</a>';
-					}
+			
+			global $icon_registers;
+
+			foreach ( $icon_registers as $icon_slug => $icon_location ) {
+
+				if ( $attr['icon'] == $icon_slug ) {
+
+					$fileInfo = pathinfo($icon_location);
+					$outIcon = '<a class="bucket-icon"' . $linkGuts . '>';
+
+						if ( $fileInfo['extension'] == 'svg' ) {
+							$outIcon .= file_get_contents( $icon_location );
+						} elseif ( $fileInfo['extension'] == 'png' || $fileInfo['extension'] == 'jpg' || $fileInfo['extension'] == 'gif' ) {
+							$outIcon .= '<img src="'. $icon_location . '" alt="icon-'. $icon_slug . '" >';
+						} else {
+							$outIcon .= $icon_slug;
+						}
+
+					$outIcon .= '</a>';
+				}
+
 			}
 		}
 	// Extra Link

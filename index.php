@@ -5,21 +5,21 @@ defined('ABSPATH') or die("Ya, took a wrong turn at Albuquerque, mac!"); // Don'
 	Plugin Name: skivdiv-chunks
 	Plugin URI: https://github.com/atelierabbey/Skivdiv-chunks
 	Description: The ideal primer for a custom post type plugin. Simple find and replace 'skivvy_post_type', the singular name, and plural name
-	Version: 24Feb15
+	Version: 11Nov15
 	Author: Grayson A.C. Laramore
 	License: GPL2
 */
 
-if ( ! class_exists( 'skivdiv_chunks' ) ) :
-
-	// Include function module
-		include 'inc/lib/skivvy_shortcodes.php';
 
 
-	// Enqueue styles
-		function skivdiv_enqueuer() {
-			wp_enqueue_style( 'skivdiv', plugins_url('css/skivdiv.css', __FILE__), false, '24Feb15', 'all' );
-		} add_action( 'wp_enqueue_scripts', 'skivdiv_enqueuer');
+include 'lib/shortcode_skivdiv.php';	// SkivDivs-chunks
+include 'lib/shortcode_bucket.php';		// [bucket]
+include 'lib/shortcode_bloginfo.php';	// [bloginfo]
+include 'lib/shortcode_clearall.php';	// [clearall]
+include 'lib/shortcode_lorem.php'; 		// [lorem]
+include 'lib/shortcode_newsfeed.php';	// [newsfeed]
+include 'lib/shortcode_iframe.php';		// [iframe]
 
-endif;
+
+
 ?>

@@ -4,6 +4,8 @@ defined('ABSPATH') or die("Ya, took a wrong turn at Albuquerque, mac!"); // Don'
 /*
 	Plugin Name: skivdiv-chunks
 	Plugin URI: https://github.com/atelierabbey/Skivdiv-chunks
+	GitHub Plugin URI: https://github.com/atelierabbey/Skivdiv-chunks
+	GitHub Branch: master
 	Description: The ideal primer for a custom post type plugin. Simple find and replace 'skivvy_post_type', the singular name, and plural name
 	Version: 11Nov15
 	Author: Grayson A.C. Laramore

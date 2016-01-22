@@ -27,7 +27,6 @@ foreach( $tags as $tag ) {
 
 function shortcode_skivdiv( $atts, $content = null, $tag) {
 // [skivdivs] - 17Aug15
-		public function shortcode_skiv_div( $atts, $content = null, $tag) {
 				$attr =  shortcode_atts( array(
 					'id'      => '',
 					'style'   => '',
@@ -109,7 +108,6 @@ function shortcode_skivdiv( $atts, $content = null, $tag) {
 						$output .= '<div class="clear"></div>';
 					}
 				return $output;
-		}
 
 }
 

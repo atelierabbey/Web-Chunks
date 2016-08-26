@@ -23,8 +23,8 @@ function shortcode_chunk ( $atts, $content = null, $tag ) {
 
 
 	// Content
+		
 		$content = apply_filters( 'chunk_content', $content );
-
 	// Container ID
 		if ( is_null($attr['id']) ) {
 			$containerID = '';
@@ -67,20 +67,20 @@ function filter_chunk_content_autop ($content) {
 function filter_chunk_content_nesting ($content) {
 	if ( strpos( $content, '[=' ) !== FALSE ) {
 		$content = str_replace ( '[=', '[', $content);
-	}
 
-     $content = str_replace('&#8220;', '&quot;', $content);
-     $content = str_replace('&#8221;', '&quot;', $content);
+		
+		$content = str_replace('&#8220;', '&quot;', $content);
+		$content = str_replace('&#8221;', '&quot;', $content);
+	}
      return $content;
 }
 
 function filter_chunk_content_doshortcode($content) {
-	return do_shortcode($content);
+	// renders internal shortcodes 
+	return do_shortcode($content, TRUE);
 }
 
-add_filter( 'chunk_content', 'filter_chunk_content_nesting', 10, 2 );
-add_filter( 'chunk_content', 'filter_chunk_content_autop', 10, 3 );
-add_filter( 'chunk_content', 'filter_chunk_content_doshortcode', 10, 4 );
+add_filter( 'chunk_content', 'filter_chunk_content_nesting', 100, 1 );
+add_filter( 'chunk_content', 'filter_chunk_content_autop', 150, 1 );
+add_filter( 'chunk_content', 'filter_chunk_content_doshortcode', 200, 1 );
 
-      	remove_filter('the_content', 'wptexturize');
-      	

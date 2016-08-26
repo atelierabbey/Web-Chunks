@@ -19,5 +19,3 @@ function shortcode_chunkicon ( $atts ) {
 
 	return '<div class="chunk-icon icon-'. $attr['key'] .' '. $attr['class'] .'"' . $style .'></div>';
 } add_shortcode( 'icon', 'shortcode_chunkicon' );
-
-?>

@@ -85,5 +85,3 @@ function shortcode_newsfeed( $atts ) {
 }
 
 add_shortcode( 'newsfeed',	'shortcode_newsfeed' );
-
-?>

@@ -20,7 +20,7 @@ $tags = array(
 	'five_sixth', 'five_sixth_last'
 );
 foreach( $tags as $tag ) {
-	add_shortcode( $tag,	'shortcode_skivdiv' );
+	add_shortcode( $tag, 'shortcode_skivdiv' );
 }
 
 

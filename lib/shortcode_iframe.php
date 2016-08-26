@@ -13,5 +13,3 @@ function shortcode_iframe ( $atts ) {
 		$output = '<iframe ' . $class . 'src="' . $attr['src'] . '" width="' . $attr['width'] . '" height="' . $attr['height'] . '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
 	return $output;
 } add_shortcode( 'iframe', 'shortcode_iframe' );
-
-?>

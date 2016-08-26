@@ -7,5 +7,3 @@ function shortcode_bloginfo( $atts ) {
 	return get_bloginfo( $key );
 } add_shortcode( 'bloginfo',	'shortcode_bloginfo' );
 
-
-?>

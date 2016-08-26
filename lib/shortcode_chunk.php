@@ -68,9 +68,9 @@ function filter_chunk_content_nesting ($content) {
 	if ( strpos( $content, '[=' ) !== FALSE ) {
 		$content = str_replace ( '[=', '[', $content);
 
-		
-		$content = str_replace('&#8220;', '&quot;', $content);
-		$content = str_replace('&#8221;', '&quot;', $content);
+		#$content = preg_replace('/{([^}]*)}/', $str, $matches);
+		#$content = str_replace('&#8220;', '&quot;', $content);
+		#$content = str_replace('&#8221;', '&quot;', $content);
 	}
      return $content;
 }

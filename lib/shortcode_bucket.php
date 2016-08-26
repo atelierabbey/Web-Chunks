@@ -10,18 +10,18 @@ $icon_registers = array(
 */
 function shortcode_bucket( $atts, $content = null, $tag ) {
 	$attr = shortcode_atts( array(
-		'url'=>'#',
-		'target' => '',
-		'class'=>'',
-		'id'=>'',
-		'style'=>'',
-		'icon' => '',
-		'thumb' => '',
-		'img'=>'',
-		'autop' => 'true',
-		'xtra' => 'false',
-		'title'=>'',
-		'more'=>''
+		'url'           => '#',
+		'target'        => '',
+		'class'         => '',
+		'id'            => '',
+		'style'         => '',
+		'icon'          => '',
+		'thumb'         => '',
+		'img'           => '',
+		'autop'         => TRUE,
+		'xtra'          => FALSE,
+		'title'         => '',
+		'more'          => ''
 	), $atts );
 	// Container
 		// Container ID
@@ -116,5 +116,3 @@ function shortcode_bucket( $atts, $content = null, $tag ) {
 		$output .= '</div>';
 	return $output;
 } add_shortcode( 'bucket', 'shortcode_bucket' );
-
-?>

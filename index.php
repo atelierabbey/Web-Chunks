@@ -22,6 +22,5 @@ include 'lib/shortcode_lorem.php'; 		// [lorem]
 include 'lib/shortcode_newsfeed.php';	// [newsfeed]
 
 include 'lib/shortcode_chunk.php';
-include 'lib/filters-chunk.php';
 
 ?>

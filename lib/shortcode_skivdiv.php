@@ -1,119 +1,107 @@
 <?php #12Aug16
 
-function skivdiv_enqueuer() {
-	wp_enqueue_style( 'skivdiv', plugins_url('css/skivdiv.css', __FILE__), false, '09Nov15', 'all' );
-} add_action( 'wp_enqueue_scripts', 'skivdiv_enqueuer');
 
-$tags = array(
-	'fullwidth',
-	'one_full',
-	'one_half', 'one_half_last',
-	'one_third', 'one_third_last',
-	'two_third', 'two_third_last',
-	'one_fourth', 'one_fourth_last',
-	'three_fourth', 'three_fourth_last',
-	'one_fifth', 'one_fifth_last',
-	'two_fifth', 'two_fifth_last',
-	'three_fifth', 'three_fifth_last',
-	'four_fifth', 'four_fifth_last',
-	'one_sixth','one_sixth_last',
-	'five_sixth', 'five_sixth_last'
-);
-foreach( $tags as $tag ) {
-	add_shortcode( $tag, 'shortcode_skivdiv' );
+function return_skivdiv_tags( $tag = NULL ) {
+	$tags = array(
+		'fullwidth',
+		'one_full',
+		'one_half', 'one_half_last',
+		'one_third', 'one_third_last',
+		'two_third', 'two_third_last',
+		'one_fourth', 'one_fourth_last',
+		'three_fourth', 'three_fourth_last',
+		'one_fifth', 'one_fifth_last',
+		'two_fifth', 'two_fifth_last',
+		'three_fifth', 'three_fifth_last',
+		'four_fifth', 'four_fifth_last',
+		'one_sixth', 'one_sixth_last',
+		'five_sixth', 'five_sixth_last',
+	);
+	if ( is_null($tag) ) {
+		return $tags;
+	} else {
+		return in_array( $tag, $tags );
+	}
 }
 
+// Register skivdiv shortcodes
+	function chunk_tags_skivdiv ( $tags ) {
+		return array_merge( $tags, return_skivdiv_tags() );
+	} add_filter( 'chunk_tags', 'chunk_tags_skivdiv' );
 
 
-function shortcode_skivdiv( $atts, $content = null, $tag) {
-// [skivdivs] - 17Aug15
-		$attr =  shortcode_atts( array(
-			'id'      => '',
-			'style'   => '',
-			'class'   => '',
-			'title'   => '',
-			'func'    => '',
-			'param'   => '',
-			'prepend' => '',
-			'before'  => '',
-			'after'   => '',
-			'icon'    => '',
-			'iconclass' => '',
-			'echoes'  => 0,
-			'autop'   => TRUE,
-		), $atts );
 
-		// $style
-			if ( $attr['style'] != '' ) {
-				$style = ' style="'.$attr['style'].';"';
-			}
-		// $class
-			if ( $attr['class'] != '' ) {
-				$class = ' ' . $attr['class'];
-			}
-		// $id
-			if ( $attr['id'] != '' ) {
-				$id = ' id="' . $attr['id'] . '"';
-			}
-		// $last
-			$last = '';
+// Filter skivdiv attr
+	function chunk_attr_skivdiv ( $attr, $tag ) {
+
+		$new_attr = $attr;
+		if ( return_skivdiv_tags($tag) ) {
+
+		// if _last, add .last. But all ways use the main tag
 			if ( strpos( $tag, '_last' ) !== false ) {
-				$tag = str_replace( '_last', ' last', $tag);
-				$last = true;
-			}
-		// $title
-			if ( $attr['title'] != '' ) {
-				$titleclass = ' ' . sanitize_title( $attr['title'] );
-				if ( $tag == 'one_full' || $tag == 'fullwidth' ) {
-					$newtitle = '<h2>' . $attr['title'] . '</h2>';
-				} else {
-					$newtitle = '<h3>' . $attr['title'] . '</h3>';
-				}
+				$new_attr['class'] = str_replace( '_last', ' last', $tag);
+			} else {
+				$new_attr['class'] = $tag;
 			}
 
+		// appends the attr classes if not empty
+			if ( ! empty($attr['class']) ) {
+				$new_attr['class'] .= ' ' . $attr['class'];
+			}
+		}
 
-		// RENDERING ------
-			$output  = $attr['before'];
-			$output .= '<div' . $id . ' class="' . $tag . $class . $titleclass . '" '. $style . '>';
-				$output .= $attr['prepend'];
-				$output .=	$newtitle;
-				if ( $tag == 'one_full' ) {
-					$output .= '<div class="page-wrapper">';
-				}
-					if ( $attr['icon'] != '' ) {
-						$output .= do_shortcode( '[icon key="'. $attr['icon'] . '" class="'. $attr['iconclass'] . '"]' );
-					}
-					$output .= '<div class="skivdiv-content">';
-						if ( $attr['func'] == '' ) {
+		return $new_attr;
 
-							if ( $attr['autop'] ) {
-								$output .= wpautop(do_shortcode($content));
-							} else {
-								$output .= do_shortcode($content);
-							}
+	} add_filter( 'chunk_attr', 'chunk_attr_skivdiv', 110, 2 );
 
-						} else {
-							if ( $attr['echoes'] === 0 ) {
-								// if $func( $param ) RETURN value
-									$output .= call_user_func_array( $attr['func'], explode(",", $attr['param']) );
-							} else {
-								// if $func( $param ) ECHO value, the below function captures the buffer and returns the value as per shortcode specs.
-									ob_start();
-									call_user_func_array( $attr['func'], explode(",", $attr['param']) );
-									$output .= ob_get_clean();
-							}
-						}
-						$output .= '<div class="clear"></div>';
-					$output .= '</div>';
-				if ( $tag == 'one_full' ) {
-					$output .= '<div class="clear"></div>';
-					$output .= '</div>';
-				}
-			$output .=	'</div>';
-			$output .= $attr['after'];
+
+
+// Filter SkivDiv Second tier wrapper
+	function chunk_wrapper_skivdiv ( $output, $content, $title, $attr, $tag ) {
+
+		if ( return_skivdiv_tags($tag) ) {
+
+			if ( $tag == 'one_full' ) {
+				$supwrapClass = 'page-wrapper';
+			} else {
+				$supwrapClass = 'skivdiv-content';
+			}
+
+			$output = '<div class="'. $supwrapClass . '">' . $output . '<div class="clear"></div>' .'</div>';
+
 			if ( $last === true ) {
 				$output .= '<div class="clear"></div>';
 			}
+		}
 		return $output;
 
-}
+	} add_filter ( 'chunk_wrapper', 'chunk_wrapper_skivdiv', 90, 5);
+
+
+
+// Filter SkivDiv Titles
+	function chunk_title_skivdiv ( $title, $attr, $tag ) {
+
+		if ( return_skivdiv_tags($tag) ) {
+
+			if ( $attr['title'] != '' ) {
+				if ( $tag == 'one_full' || $tag == 'fullwidth' ) {
+					$title = '<h2>' . $title . '</h2>';
+				} else {
+					$title = '<h3>' . $title . '</h3>';
+				}
+			}
+		}
+
+		return $title;
+
+	} add_filter( 'chunk_title', 'chunk_title_skivdiv', 100, 3);
+
+
+// Enqueue Styles
+	function skivdiv_enqueuer() {
+
+		wp_enqueue_style( 'skivdiv', plugins_url('css/skivdiv.css', __FILE__), false, '09Nov15', 'all' );
+
+	} add_action( 'wp_enqueue_scripts', 'skivdiv_enqueuer');
+

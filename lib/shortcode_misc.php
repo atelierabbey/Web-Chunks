@@ -18,12 +18,13 @@ function shortcode_iframe ( $atts ) {
 				'src' => '',
 				'class' => '',
 				'width' => '100%',
-				'height' => '300'
+				'height' => '300',
+				'scrolling' => 'auto',
 	), $atts );
 		if ( $attr['class'] ) {
 			$class = 'class="'. $attr['class'] .'" ';
 		}
-		$output = '<iframe ' . $class . 'src="' . $attr['src'] . '" width="' . $attr['width'] . '" height="' . $attr['height'] . '" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+		$output = '<iframe ' . $class . 'src="' . $attr['src'] . '" width="' . $attr['width'] . '" height="' . $attr['height'] . '" scrolling='. $attr['scrolling'] .' frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
 	return $output;
 } add_shortcode( 'iframe', 'shortcode_iframe' );
 

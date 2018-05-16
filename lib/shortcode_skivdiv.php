@@ -1,4 +1,4 @@
-<?php #12Aug16
+<?php #16May18
 
 function skivdiv_enqueuer() {
 	wp_enqueue_style( 'skivdiv', plugins_url('css/skivdiv.css', __FILE__), false, '09Nov15', 'all' );
@@ -26,7 +26,7 @@ foreach( $tags as $tag ) {
 
 
 function shortcode_skivdiv( $atts, $content = null, $tag) {
-// [skivdivs] - 17Aug15
+// [skivdivs]
 		$attr =  shortcode_atts( array(
 			'id'      => '',
 			'style'   => '',
@@ -41,6 +41,7 @@ function shortcode_skivdiv( $atts, $content = null, $tag) {
 			'iconclass' => '',
 			'echoes'  => 0,
 			'autop'   => TRUE,
+			'data'	=> '',
 		), $atts );
 
 		// $style
@@ -74,7 +75,7 @@ function shortcode_skivdiv( $atts, $content = null, $tag) {
 
 		// RENDERING ------
 			$output  = $attr['before'];
-			$output .= '<div' . $id . ' class="' . $tag . $class . $titleclass . '" '. $style . '>';
+			$output .= '<div' . $id . ' class="' . $tag . $class . $titleclass . '" '. $style . $attr['data'] .'>';
 				$output .= $attr['prepend'];
 				$output .=	$newtitle;
 				if ( $tag == 'one_full' ) {
@@ -84,12 +85,13 @@ function shortcode_skivdiv( $atts, $content = null, $tag) {
 						$output .= do_shortcode( '[icon key="'. $attr['icon'] . '" class="'. $attr['iconclass'] . '"]' );
 					}
 					$output .= '<div class="skivdiv-content">';
+
 						if ( $attr['func'] == '' ) {
 
-							if ( $attr['autop'] ) {
-								$output .= wpautop(do_shortcode($content));
-							} else {
+							if ( $attr['autop'] !== TRUE ) {
 								$output .= do_shortcode($content);
+							} else {
+								$output .= wpautop(do_shortcode($content));
 							}
 
 						} else {
